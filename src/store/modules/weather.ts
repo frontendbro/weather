@@ -33,7 +33,8 @@ const actions: ActionTree<WeatherState, RootState> = {
         {
           params: {
             q: payload,
-            appid: "94d75bb6a93fbf5a66591f211f0df822"
+            appid: "94d75bb6a93fbf5a66591f211f0df822",
+            units: 'metric'
           }
         }
       )
