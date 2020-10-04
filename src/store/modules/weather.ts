@@ -41,6 +41,7 @@ const actions: ActionTree<WeatherState, RootState> = {
       .then((res) => {
         if (!res.data.error) {
           commit("SET_WEATHER_DATA", res.data);
+          return res.data
         } else {
           throw res.data;
         }

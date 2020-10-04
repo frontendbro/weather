@@ -10,6 +10,11 @@ const routes: Array<RouteConfig> = [
     name: "WeatherPage",
     component: WeatherPage,
   },
+  {
+    path: "/:name",
+    name: "WeatherPage",
+    component: WeatherPage,
+  },
 ];
 
 const router = new VueRouter({

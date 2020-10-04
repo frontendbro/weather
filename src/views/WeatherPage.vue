@@ -13,10 +13,7 @@
         @search="handleSearch"
         @change="handleChange"
       >
-        <a-select-option
-            v-for="item in citiesList"
-            :key="item.name"
-        >
+        <a-select-option v-for="item in citiesList" :key="item.name">
           {{ item.name }}
         </a-select-option>
       </a-select>
@@ -25,24 +22,33 @@
           width="100"
           height="100"
           :src="
-                `http://openweathermap.org/img/wn/${byDays[0] && byDays[0][0] && byDays[0][0].weather[0].icon}@2x.png`
-              "
+            `http://openweathermap.org/img/wn/${byDays[0] &&
+              byDays[0][0] &&
+              byDays[0][0].weather[0].icon}@2x.png`
+          "
           alt="icon"
         />
-        {{byDays[0] && byDays[0][0] && byDays[0][0].main && byDays[0][0].main.temp}}°C
+        {{
+          byDays[0] &&
+            byDays[0][0] &&
+            byDays[0][0].main &&
+            byDays[0][0].main.temp
+        }}°C
       </div>
     </div>
     <ul class="weather-list">
       <li v-for="item of byDays" class="weather-item" :key="item.cod">
         <div>
-          <div class="weather-item__title">{{ moment(item[0].dt_txt).format('LL (dddd)') }}</div>
+          <div class="weather-item__title">
+            {{ moment(item[0].dt_txt).format("LL (dddd)") }}
+          </div>
           <div class="weather-item-inner">
             <div
               class="weather-item-inner-col"
               v-for="inner of item"
               :key="inner.dt"
             >
-              {{moment(inner.dt_txt).format('h:mm')}}
+              {{ moment(inner.dt_txt).format("h:mm") }}
               <img
                 width="50"
                 height="50"
@@ -51,7 +57,7 @@
                 "
                 alt="icon"
               />
-              {{inner.main.temp}}°
+              {{ inner.main.temp }}°
             </div>
           </div>
         </div>
@@ -77,21 +83,33 @@ export default class WeatherPage extends Vue {
   @weatherState.State citiesList!: Array<any>;
   @weatherState.Getter byDays!: Array<any>;
 
-  value: string | undefined = undefined;
+  value: string | undefined = null;
   dataList = [];
 
+  mounted() {
+    this.value = this.$route.params.name;
+    if (this.value) {
+      this.handleChange(this.value);
+    }
+  }
   handleSearch(val: string) {
-    if (val.length > 3) {
+    if (val.length > 2) {
       this.GetCities(val).catch(() => {
-        this.$message.error('Ошибка получения данных');
+        this.$message.error("Ошибка получения данных");
       });
     }
   }
   handleChange(val: string) {
     this.value = val;
-    this.GetData(val).catch(() => {
-      this.$message.error('Ошибка получения данных');
-    });
+    this.GetData(val)
+      .then(() => {
+        if (this.$route.params.name !== val) {
+          this.$router.push(val);
+        }
+      })
+      .catch(() => {
+        this.$message.error("Ошибка получения данных");
+      });
   }
 }
 </script>
