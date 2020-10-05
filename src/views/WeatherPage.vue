@@ -143,6 +143,8 @@ export default class WeatherPage extends Vue {
     padding: 20px;
     margin: 0 50px 50px 0;
     align-self: flex-start;
+    position: sticky;
+    top: 50px;
   }
   &-list {
     display: flex;
