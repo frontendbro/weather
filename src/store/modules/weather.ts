@@ -20,12 +20,12 @@ const getters: GetterTree<WeatherState, RootState> = {
       return i % chunkSize === 0 ? arr.slice(i, i + chunkSize) : null;
     }).filter(function (e: any) {
       return e;
-    })
+    });
   }
 }
 
 const actions: ActionTree<WeatherState, RootState> = {
-  GetData: ({ commit }, payload) => {
+  GetData: ({commit}, payload) => {
     commit("GET_WEATHER_DATA_LOADING", true);
     return axios
       .get(
@@ -38,22 +38,22 @@ const actions: ActionTree<WeatherState, RootState> = {
           }
         }
       )
-      .then((res) => {
+      .then(res => {
         if (!res.data.error) {
           commit("SET_WEATHER_DATA", res.data);
-          return res.data
+          return res.data;
         } else {
           throw res.data;
         }
       })
-      .catch((err) => {
+      .catch(err => {
         throw err;
       })
       .finally(() => {
         commit("GET_WEATHER_DATA_LOADING", false);
       });
   },
-  GetCities: ({ commit }, payload) => {
+  GetCities: ({commit}, payload) => {
     commit("GET_CITIES_LIST_LOADING", true);
     return axios
       .get(
@@ -64,23 +64,22 @@ const actions: ActionTree<WeatherState, RootState> = {
             locale: "ru",
             "types[]": "city",
           }
-        }
-      )
-      .then((res) => {
+        })
+      .then(res => {
         if (!res.data.error) {
           commit("SET_CITIES_LIST", res.data);
-          return res.data
+          return res.data;
         } else {
           throw res.data;
         }
       })
-      .catch((err) => {
+      .catch(err => {
         throw err;
       })
       .finally(() => {
         commit("GET_CITIES_LIST_LOADING", false);
       });
-  },
+  }
 };
 
 const mutations: MutationTree<WeatherState> = {
@@ -91,10 +90,10 @@ const mutations: MutationTree<WeatherState> = {
     state.data = payload;
   },
   GET_CITIES_LIST_LOADING(state, payload) {
-    state.citiesListLoading = payload
+    state.citiesListLoading = payload;
   },
   SET_CITIES_LIST(state, payload) {
-    state.citiesList = payload
+    state.citiesList = payload;
   }
 };
 

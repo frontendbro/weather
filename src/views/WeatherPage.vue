@@ -83,7 +83,7 @@ export default class WeatherPage extends Vue {
   @weatherState.State citiesList!: Array<any>;
   @weatherState.Getter byDays!: Array<any>;
 
-  value = null;
+  value: string | null | undefined = null;
 
   mounted() {
     if (this.$route.params.name) {
@@ -96,7 +96,7 @@ export default class WeatherPage extends Vue {
   handleSearch(val: string) {
     if (val.length > 2) {
       this.GetCities(val)
-        .then(val => {
+        .then((val: any) => {
           if (!val.length) {
             this.$message.warning("Введённые данные не корректны");
           }
