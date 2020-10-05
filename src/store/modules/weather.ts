@@ -1,7 +1,7 @@
 import axios from "axios";
-import {ActionTree, GetterTree, Module, MutationTree} from "vuex";
-import {RootState} from "@/store";
-import {WeatherState} from "./weather.d";
+import { ActionTree, GetterTree, Module, MutationTree } from "vuex";
+import { RootState } from "@/store";
+import { WeatherState } from "./weather.d";
 
 const state: WeatherState = {
   data: {
@@ -16,11 +16,9 @@ const getters: GetterTree<WeatherState, RootState> = {
   byDays: state => {
     const chunkSize = 8;
     const arr = state.data.list;
-    return arr.map(function (e: any, i: any) {
+    return arr.map((e: any, i: any) => {
       return i % chunkSize === 0 ? arr.slice(i, i + chunkSize) : null;
-    }).filter(function (e: any) {
-      return e;
-    });
+    }).filter((e: any) => e);
   }
 }
 
@@ -53,7 +51,7 @@ const actions: ActionTree<WeatherState, RootState> = {
         commit("GET_WEATHER_DATA_LOADING", false);
       });
   },
-  GetCities: ({commit}, payload) => {
+  GetCities: ({ commit }, payload) => {
     commit("GET_CITIES_LIST_LOADING", true);
     return axios
       .get(
