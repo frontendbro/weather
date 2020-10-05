@@ -83,20 +83,27 @@ export default class WeatherPage extends Vue {
   @weatherState.State citiesList!: Array<any>;
   @weatherState.Getter byDays!: Array<any>;
 
-  value: string | undefined = null;
-  dataList = [];
+  value = null;
 
   mounted() {
-    this.value = this.$route.params.name;
-    if (this.value) {
+    if (this.$route.params.name) {
+      this.value = this.$route.params.name;
       this.handleChange(this.value);
+    } else {
+      this.value = undefined;
     }
   }
   handleSearch(val: string) {
     if (val.length > 2) {
-      this.GetCities(val).catch(() => {
-        this.$message.error("Ошибка получения данных");
-      });
+      this.GetCities(val)
+        .then(val => {
+          if (!val.length) {
+            this.$message.warning("Введённые данные не корректны");
+          }
+        })
+        .catch(() => {
+          this.$message.error("Ошибка получения данных");
+        });
     }
   }
   handleChange(val: string) {

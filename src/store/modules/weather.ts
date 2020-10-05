@@ -69,6 +69,7 @@ const actions: ActionTree<WeatherState, RootState> = {
       .then((res) => {
         if (!res.data.error) {
           commit("SET_CITIES_LIST", res.data);
+          return res.data
         } else {
           throw res.data;
         }
