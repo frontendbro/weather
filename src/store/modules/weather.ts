@@ -55,7 +55,7 @@ const actions: ActionTree<WeatherState, RootState> = {
     commit("GET_CITIES_LIST_LOADING", true);
     return axios
       .get(
-        "http://autocomplete.travelpayouts.com/places2",
+        "autocomplete.travelpayouts.com/places2",
         {
           params: {
             term: payload,
