@@ -16,26 +16,25 @@ const getters: GetterTree<WeatherState, RootState> = {
   byDays: state => {
     const chunkSize = 8;
     const arr = state.data.list;
-    return arr.map((e: any, i: any) => {
-      return i % chunkSize === 0 ? arr.slice(i, i + chunkSize) : null;
-    }).filter((e: any) => e);
+    return arr
+      .map((e: any, i: any) => {
+        return i % chunkSize === 0 ? arr.slice(i, i + chunkSize) : null;
+      })
+      .filter((e: any) => e);
   }
-}
+};
 
 const actions: ActionTree<WeatherState, RootState> = {
-  GetData: ({commit}, payload) => {
+  GetData: ({ commit }, payload) => {
     commit("GET_WEATHER_DATA_LOADING", true);
     return axios
-      .get(
-        "http://api.openweathermap.org/data/2.5/forecast",
-        {
-          params: {
-            q: payload,
-            appid: "94d75bb6a93fbf5a66591f211f0df822",
-            units: 'metric'
-          }
+      .get("https://api.openweathermap.org/data/2.5/forecast", {
+        params: {
+          q: payload,
+          appid: "94d75bb6a93fbf5a66591f211f0df822",
+          units: "metric"
         }
-      )
+      })
       .then(res => {
         if (!res.data.error) {
           commit("SET_WEATHER_DATA", res.data);
@@ -54,15 +53,13 @@ const actions: ActionTree<WeatherState, RootState> = {
   GetCities: ({ commit }, payload) => {
     commit("GET_CITIES_LIST_LOADING", true);
     return axios
-      .get(
-        "autocomplete.travelpayouts.com/places2",
-        {
-          params: {
-            term: payload,
-            locale: "ru",
-            "types[]": "city",
-          }
-        })
+      .get("https://autocomplete.travelpayouts.com/places2", {
+        params: {
+          term: payload,
+          locale: "ru",
+          "types[]": "city"
+        }
+      })
       .then(res => {
         if (!res.data.error) {
           commit("SET_CITIES_LIST", res.data);
